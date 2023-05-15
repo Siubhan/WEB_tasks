@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+
+<head>
+</head>
+
+<body>
+	<div class="figure"></div>
+	<p>
+		<input type="button" value="Начать" onclick="Draw()">
+		<input type="button" value="Остановить" onclick="clearInterval(enterInterval); entrance = true;">
+	</p>
+
+
+	<script src="https://d3js.org/d3.v7.min.js"></script>
+	<script>
+		let svg = d3.select(".figure")
+			.append("svg")
+			.attr("width", "500")
+			.attr("height", "500")
+			.style("background-color", "black");
+
+		let centerX = svg.attr("width") / 2;
+		let centerY = svg.attr("height") / 2;
+
+		let scaleX = centerX * 0.5;
+		let scaleY = centerY * 0.5;
+		let RADIUS = 15;
+		let t = 0;
+		let entrance = true;
+
+
+		function Draw() {
+			if (!entrance) {
+				return;
+			}
+			entrance = false;
+
+			if (svg.selectAll("circle").length !== 0) {
+				svg.selectAll("circle").remove();
+			}
+
+			svg.append("circle")
+				.attr("cx", centerX + 2 * Math.pow(Math.sin(t), 3) * scaleX)
+				.attr("cy", centerY + 2 * Math.pow(Math.cos(t), 3) * scaleY)
+				.attr("r", RADIUS).style("fill", "lime");
+
+			enterInterval = setInterval(() => {
+				t += 2 * Math.PI / 100; // шаг движения
+				if (t >= 2 * Math.Pi) t = 0; // ограничения диапазона
+				svg.select("circle")
+					.attr("cx", centerX + 2 * Math.pow(Math.sin(t), 3) * scaleX) // смещение X
+					.attr("cy", centerY + 2 * Math.pow(Math.cos(t), 3) * scaleY) // смещение Y
+					.attr("r", RADIUS).style("fill", "lime");
+			}, 100); // время задержки вызова события мс
+		}
+	</script>
+
+</body>
+
+</html>

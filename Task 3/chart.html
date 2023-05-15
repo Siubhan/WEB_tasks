@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+<link rel="stylesheet" href="style_chart.css">
+
+<head>
+</head>
+
+<body>
+	<form>
+		<label for="from">От:</label>
+		<input type="text" name="from">
+		<label for="to">До:</label>
+		<input type="text" name="to">
+		<input type="button" value="Построить" onclick="drawChart(this.form.from.value,
+                                    this.form.to.value)">
+	</form>
+	<div class="chart"></div>
+
+	<script src="https://d3js.org/d3.v7.min.js"></script>
+	<script>
+		let calcFunct = (x) => Math.cbrt(x / Math.pow(x - 1, 2));
+
+		function drawChart(a, b) {
+			a = Number(a);
+			b = Number(b);
+
+
+			let height = 500,
+				width = 500,
+				margin = 20,
+				data = [];
+
+
+			let svg = d3.select(".chart")
+				.append("svg")
+				.attr("class", "axis")
+				.attr("width", width)
+				.attr("height", height)
+				.style("border", "thin solid black").style("margin", "5px");
+
+			let arr_x = []
+			let arr_y = []
+			for (let i = a; b - i > 0.001; i += 0.005) {
+				arr_x.push(i);
+				let y = calcFunct(i);
+				arr_y.push(y)
+			}
+
+			let xAxisLength = width - 2 * margin;
+
+			let yAxisLength = height - 2 * margin;
+
+
+			let max_y = Math.max(...(arr_y).filter(num => {
+				if (isFinite(num)) return num;
+			}));
+
+			let min_y = Math.min(...(arr_y).filter(num => {
+				if (isFinite(num)) return num;
+			}));
+
+			if (max_y > 50) {
+				max_y = 50;
+				min_y = -50
+			} else if (min_y < -50) {
+				min_y = 50;
+				max_y = 50;
+			}
+
+			let rawData = [];
+			for (let i = 0; i < arr_x.length; i++) {
+				if (!isFinite(arr_y[i])) {
+					rawData.push({
+						x: arr_x[i],
+						y: NaN
+					});
+				} else {
+					rawData.push({
+						x: arr_x[i],
+						y: arr_y[i]
+					});
+				}
+			}
+
+			// функция интерполяции значений на ось Х  
+			let scaleX = d3.scaleLinear()
+				.domain([Math.min(...arr_x) - 1, Math.max(...arr_x) + 1])
+				.range([0, xAxisLength]);
+
+			// функция интерполяции значений на ось Y
+			let scaleY = d3.scaleLinear()
+				.domain([max_y, min_y])
+				.range([0, yAxisLength]);
+
+			// масштабирование реальных данных в данные для нашей координатной системы
+			for (let i = 0; i < rawData.length; i++) {
+				data.push({
+					x: scaleX(rawData[i].x) + margin,
+					y: scaleY(rawData[i].y) + margin
+				});
+			}
+
+			// создаем ось X   
+			let xAxis = d3.axisBottom(scaleX);
+
+			// создаем ось Y             
+			let yAxis = d3.axisLeft(scaleY);
+
+			svg.append("g")
+				.attr("transform",
+					"translate(" + margin + "," + (scaleY(0) + margin) + ")")
+				.call(xAxis);
+
+			svg.append("g")
+				.attr("transform",
+					"translate(" + (scaleX(0) + margin) + "," + margin + ")")
+				.call(yAxis);
+
+
+			// функция, создающая по массиву точек линии
+			let lineF = d3.line().x(function(d) {
+					return d.x;
+				})
+				.y(function(d) {
+					return d.y;
+				}).defined(function(d) {
+					return !isNaN(d.y)
+				}).curve(d3.curveCardinalOpen);
+
+
+			svg.append("g")
+				.append("path")
+				.attr("d", lineF(data))
+				.style("stroke", "green")
+				.style("stroke-width", 2);
+			
+		}
+	</script>
+
+</body>
+
+</html>
