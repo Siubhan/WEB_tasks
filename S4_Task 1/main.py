@@ -19,5 +19,5 @@ if __name__ == '__main__':
     pd.set_option('display.max_columns', None)
     pd.set_option('display.max_rows', None)
     pd.set_option('max_colwidth', None)
-    df = pd.read_sql(script_4, connect)
+    df = pd.read_sql(script_2, connect)
     print(df)

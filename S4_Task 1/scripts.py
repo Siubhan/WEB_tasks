@@ -33,15 +33,15 @@ WHERE status_id = 2 AND room.type_room_id <> 2 ORDER BY room.room_name, check_in
 # Столбцы назвать Характеристика и Результат, характеристики вывести в том же порядке, как они записаны в задании.
 
 script_2 = '''
-    SELECT g.guest_name,  count(distinct room_booking.room_id) as 'C_room', 
+    SELECT count(distinct g.guest_name),  
+    count(distinct room_booking.room_id) as 'C_room', 
     sum(tr.price*CAST((julianday(check_out_date) - julianday(check_in_date) + 1) AS INTEGER)) AS 'P_booking',
-    sum(distinct sb.service_id)  AS 'S_service',
-    sum(sb.price*CAST((julianday(check_out_date) - julianday(check_in_date) + 1) AS INTEGER)) AS 'P_service' 
+    count(sb.service_id)  AS 'S_service',
+    sum(sb.price) AS 'P_service' 
     FROM room_booking inner join guest g USING(guest_id)
     inner join service_booking sb USING(room_booking_id)
     inner join room r USING(room_id) 
     inner join type_room tr USING(type_room_id)
-    group by g.guest_name
 '''
 
 # Задание - 3
