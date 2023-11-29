@@ -1,0 +1,15 @@
+{% macro create_cards(cards, first, last) %}
+<div class="cards">
+    {% for card in cards%}
+    {% if first < loop.index < last %}
+    <div class="card">
+        <div class="content">
+            <h2>{{card.title}}</h2>
+            <h4>{{card.author}}</h4>
+            <p>Стоимость: {{card.price}} руб.</p>
+        </div>
+    </div>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endmacro %}

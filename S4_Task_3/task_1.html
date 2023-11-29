@@ -1,0 +1,39 @@
+<html>
+<head>
+    <title> Задание 1 JINJA2 </title>
+</head>
+<body>
+<ul>
+    <li>имя - {{ name }}</li>
+
+
+    {% macro create_checkbox(dict, vals) %}
+    <form>
+        <fieldset>
+            {% for key, value in dict.items() %}
+            <label for="{{ key }}">
+                <input type="checkbox" id="{{ key }}" {% if key in vals %}checked{% endif %}>
+                {{ value }}
+            </label>
+            <br>
+            {% endfor %}
+        </fieldset>
+    </form>
+    {% endmacro %}
+
+    <li>словарь -</li>
+    {{ create_checkbox(dictonary, values) }}
+    <li>значения -
+        {% for value in values%}
+        {% if value == values[-1] %}
+        {{value}} ],
+        {% elif value == values[0] %}
+        [{{value}},
+        {% else %}
+        {{value}},
+        {% endif %}
+        {% endfor %}
+    </li>
+</ul>
+</body>
+</html>

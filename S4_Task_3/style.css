@@ -1,0 +1,28 @@
+html {
+    background-color: #f0f0f0;
+}
+
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    height: 100%;
+}
+
+.card {
+    width: 30%;
+    height: 30%;
+    display: flex;
+    background-color: white;
+    border-radius: 0.25rem;
+    box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+    flex-flow: column wrap;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+}
+
+
