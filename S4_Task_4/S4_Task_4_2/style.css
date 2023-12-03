@@ -1,0 +1,26 @@
+html {
+    background-color: #f0f0f0;
+}
+
+
+table, td, th {
+    border: thin black solid;
+    border-collapse: collapse;
+    padding: 5px;
+}
+
+th, tr:nth-child(2n) {
+    background-color: gainsboro;
+}
+
+.main {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.tables {
+    display: flex;
+    flex-flow: column wrap;
+}

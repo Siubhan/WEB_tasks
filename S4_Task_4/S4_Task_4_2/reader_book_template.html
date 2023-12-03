@@ -1,0 +1,66 @@
+<html>
+<head>
+    <title> Карточка читателя </title>
+    <link rel="stylesheet" href="style.css">
+    {% macro render_table(table_name, relation) %}
+    <p>
+        <b>{{table_name}} </b>
+        <!-- количество строк в таблице -->
+    <table>
+        <!-- формируем заголовок таблицы (имена столбцов) -->
+        <tr>
+            {% for name in relation.dtypes.index %}
+            <th>{{name}}</th>
+            {% endfor %}
+        </tr>
+        <tbody>
+        <!-- для всех строк таблицы -->
+        {% for i in range(relation.__len__()) %}
+        <tr>
+            <!-- выводим значение каждого столбца -->
+            {% for name in relation.dtypes.index %}
+            {% if name=="Дата_сдачи" %}
+            {% if relation.loc[i,name]==None %}
+            <td><input type="submit" value="Сдать"></td>
+            {% else %}
+            <td> {{ relation.loc[i, name] }}</td>
+            {% endif %}
+            {% else %}
+            <td> {{ relation.loc[i, name] }}</td>
+            {% endif %}
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </p>
+    {% endmacro %}
+
+    {% macro render_combo_box(box) %}
+    <p>
+    <form>
+        Читатель:
+        <select name="reader">
+            {% set n = len(combo_box) %}
+            {% for i in range(n) %}
+            {% set id_r = combo_box.loc[i, "reader_id"] %}
+            {% if id_r == reader_id %}
+            <option selected value={{id_r}}>
+                {% else %}
+            <option value={{id_r}}>
+                {% endif %}
+                {{ combo_box.loc[i, "reader_name"] }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <input type="submit" value="Найти">
+    </form>
+    </p>
+    {% endmacro %}
+</head>
+<body>
+{{render_combo_box(combo_box)}}
+{{render_table("Карточка", book_reader)}}
+</body>
+</html>
