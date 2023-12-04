@@ -35,12 +35,14 @@
         <select name={{naming}}>
             {% set n = len(box) %}
             {% for i in range(n) %}
-            {% set id_r = box.loc[i, naming+"_id"] %}
+            {% set id_r = box.loc[i, naming+"_id"]  %}
+
             {% if id_r == needed_id %}
-            <option selected value={{id_r}}>
+            <option selected="selected" value={{id_r}}>
                 {% else %}
             <option value={{id_r}}>
                 {% endif %}
+
                 {{ box.loc[i, naming+"_name"] }}
             </option>
             {% endfor %}
@@ -52,8 +54,9 @@
 </head>
 
 <body>
-{{render_combo_box(df_room_type,"Тип комнаты",type_room,"type_room")}}
-{{render_combo_box(df_status,"Статус",status_id,"status")}}
+<!--Selected не работает в Firefox-->
+{{render_combo_box(df_room_type, "Тип комнаты", room_type,"type_room")}}
+{{render_combo_box(df_status, "Статус", status_id,"status")}}
 {{render_table("Заселения", df_expect_guest)}}
 </body>
 

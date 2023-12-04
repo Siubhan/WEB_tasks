@@ -4,7 +4,7 @@ from reader_book_model import get_reader, get_book_reader
 
 if __name__ == '__main__':
     # задаем id читателя, для которого формируем страницу
-    reader_id = 3
+    reader_id = 5
     # устанавливаем соединение с базой данных
     conn = sqlite3.connect("library.sqlite")
 

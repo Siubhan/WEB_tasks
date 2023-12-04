@@ -37,7 +37,7 @@ if __name__ == '__main__':
     # In jinja2 indexing starts with 1
     # (e.g. Мастер и Маргарита is the first record of list, so it's not included)
     # ! In macros STRICT COMPARSION (first < CURRENT < last)
-    result_html = template.render(cards=books, first=0, last=len(books) + 1)
+    result_html = template.render(cards=books, first=0, last=len(books) )
 
     with open('result_2.html', 'w', encoding='utf-8-sig') as file:
         file.write(result_html)

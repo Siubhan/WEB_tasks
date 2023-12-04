@@ -5,22 +5,18 @@
     {% macro render_table(table_name, relation) %}
     <p>
         <b>{{table_name}} </b>
-        <!-- количество строк в таблице -->
     <table>
-        <!-- формируем заголовок таблицы (имена столбцов) -->
         <tr>
             {% for name in relation.dtypes.index %}
             <th>{{name}}</th>
             {% endfor %}
         </tr>
         <tbody>
-        <!-- для всех строк таблицы -->
         {% for i in range(relation.__len__()) %}
         <tr>
-            <!-- выводим значение каждого столбца -->
             {% for name in relation.dtypes.index %}
             {% if name=="Дата_сдачи" %}
-            {% if relation.loc[i,name]==None %}
+            {% if relation.loc[i, name]==None %}
             <td><input type="submit" value="Сдать"></td>
             {% else %}
             <td> {{ relation.loc[i, name] }}</td>
@@ -45,7 +41,7 @@
             {% for i in range(n) %}
             {% set id_r = combo_box.loc[i, "reader_id"] %}
             {% if id_r == reader_id %}
-            <option selected value={{id_r}}>
+            <option value={{id_r}} selected="selected">
                 {% else %}
             <option value={{id_r}}>
                 {% endif %}

@@ -4,7 +4,7 @@ from booking_get import get_expected_guests, get_room_type, get_status
 
 if __name__ == '__main__':
     # задаем id типа комнаты, статуса
-    status_id = 2
+    status_id = 1
     type_room = 3
 
     # устанавливаем соединение с базой данных
