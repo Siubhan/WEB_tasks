@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block header %}
+<title> 32. Операции над векторами </title>
+{% endblock %}
+
+
+{% block content%}
+<form action="{{ url_for('index') }}" method="get">
+    <p><label>Размерность векторов: <input type="number" min="2" name="size" value="{{ size }}"></label>
+        <input type="submit" value="Показать" name="show">
+    </p>
+
+    <p>
+        Вектор A:
+        {% for e in A %}
+        <input class="element" type="number" name="a" value="{{ e }}">
+        {% endfor %}
+    </p>
+
+    <p>
+        Вектор B:
+        {% for e in B %}
+        <input class="element" type="number" name="b" value="{{ e }}">
+        {% endfor %}
+    </p>
+
+    <p>
+        <label><input type="checkbox" name="options" {% if 'mod' in options %} checked {% endif %} value="mod">Модуль
+            векторов</label><br>
+        <label><input type="checkbox" name="options" {% if 'angle' in options %} checked {% endif %} value="angle">Угол
+            между
+            векторами</label><br>
+        <label><input type="checkbox" name="options" {% if 'vect' in options %} checked {% endif %} value="vect">Векторное
+            произведение</label><br>
+        <label><input type="checkbox" name="options" {% if 'substraction' in options %} checked {% endif %} value="substraction">Разность</label>
+    </p>
+    <p><input type="submit" value="Вычислить"> <input type="reset" value="Очистить"></p>
+</form>
+
+{% if result %}
+<hr>
+<p>Результат:</p>
+{% for option in result %}
+<p>{{ option }}</p>
+{% endfor %}
+{% endif %}
+
+{% endblock %}

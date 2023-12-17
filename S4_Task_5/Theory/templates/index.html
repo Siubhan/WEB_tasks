@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title> Приветствие </title>
+</head>
+
+<body>
+<form action="{{ url_for('index') }}">
+    <p>Имя: <input type="text" name="username" value="{{ name }}"></p>
+    <p>Пол:<br>
+        <input type="radio" name="gender" value=w{% if gender=='w' %} checked {%endif%}> Ж <br>
+        <input type="radio" name="gender" value=m{% if gender=='m' %} checked {%endif%}> М
+    </p>
+    <p>
+        Образовательная программа:
+        <select name="program">
+            {% for i, data in program_list %}
+            <option value="{{i}}" {% if i == program_id %} selected {% endif %}>{{data}}</option>
+            {% endfor %}
+        </select>
+    </p>
+    <p>
+        Выберите дисциплины, которые Вы изучаете:<br>
+        {% for i, data in subject_list %}
+        <input type="checkbox" name="subject" value="{{i}}" {% if i in subject_id %} checked {%endif%}>
+        {{data}}<br>
+        {% endfor %}
+    </p>
+    <p><input type="submit" value="Отправить">
+        <input type="reset" value="Очистить"></p>
+</form>
+{% if render %}
+<p>
+    {% if name %}
+    Привет,
+    {% if gender == "m" %}
+    студент
+    {% elif gender == "w" %}
+    студентка
+    {% endif %}
+    {{name}}!
+    {% else %}
+    Введите имя, пожалуйста!
+    {% endif %}
+</p>
+<p>
+    Ваша образовательная программа: {{program}}.
+</p>
+<p>
+    {% if subjects_select %}
+    Вы изучаете дисциплины:
+    {% for sub in subjects_select[:-1] %}
+    <a href="{{ url_for('subject', sub=sub) }}">{{sub}}</a>,
+    {% endfor %}
+    {% for sub in subjects_select[-1:] %}
+    <a href="{{ url_for('subject', sub=sub) }}">{{sub}}</a>.
+    {% endfor %}
+    {% else %}
+    Вы не изучаете никаких дисциплин.
+    {% endif %}
+</p>
+{% endif %}
+
+</body>
+
+</html>
